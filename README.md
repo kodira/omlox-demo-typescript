@@ -39,4 +39,17 @@ clientSecret: '***'
 baseUrl: `https://demo.coriva.io/corivahub/v2`
 spec: `https://omlox.com/fileadmin/api/omlox_Hub_API_2.0.0.json`
 
+## Development
 
+To start a local development server, run:
+
+```bash
+npm install
+```
+
+```bash
+npm start
+```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The
+application will automatically reload whenever you modify any of the source files.
