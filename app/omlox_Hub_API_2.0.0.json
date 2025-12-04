@@ -1,0 +1,3476 @@
+{
+  "tags": [
+    {
+      "name": "Zones",
+      "description": "Everything about zones."
+    },
+    {
+      "name": "Trackables",
+      "description": "Everything about trackables."
+    },
+    {
+      "name": "Providers",
+      "description": "Everything about providers."
+    },
+    {
+      "name": "Fences",
+      "description": "Everything about fences."
+    },
+    {
+      "name": "WebSocket",
+      "description": "The WebSocket API - Not actually part of the REST API"
+    }
+  ],
+  "servers": [
+    {
+      "url": "127.0.0.1",
+      "description": "Local Reference Server",
+      "variables": {
+        "basePath": {
+          "default": "v2"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/zones/summary": {
+      "get": {
+        "tags": [
+          "Zones"
+        ],
+        "summary": "Get an array of all zones.",
+        "description": "Returns an array of all zone objects. If authorization is enabled only the corresponding zones are returned.",
+        "operationId": "getAllZoneObjects",
+        "responses": {
+          "200": {
+            "description": "An array of all zone summaries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Zone"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/foreign_id"
+          }
+        ]
+      }
+    },
+    "/zones": {
+      "get": {
+        "tags": [
+          "Zones"
+        ],
+        "summary": "Get an array of all zone ids.",
+        "description": "This function returns an array of ids of all available zones. If authorization is enabled only the corresponding zone ids are returned.",
+        "operationId": "getZoneIds",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/UuidArray"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/foreign_id"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Zones"
+        ],
+        "summary": "Create a zone.",
+        "description": "Creates a new zone and returns the created object. The provided id will be replaced by a generated uuid.",
+        "operationId": "createZone",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Zone"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Zone created.",
+            "headers": {
+              "Location": {
+                "description": "The path to the created object.",
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Zone"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Zones"
+        ],
+        "summary": "Delete all zones.",
+        "description": "This function deletes all zones known to the system.",
+        "operationId": "deleteAllZones",
+        "responses": {
+          "204": {
+            "description": "All zones deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/zones/{zone_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_zone_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Zones"
+        ],
+        "summary": "Get a zone.",
+        "description": "Returns the zone object with the given id.",
+        "operationId": "getZoneById",
+        "responses": {
+          "200": {
+            "description": "A zone object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Zone"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Zones"
+        ],
+        "summary": "Update a zone.",
+        "description": "Updates the zone object with the given id.",
+        "operationId": "UpdateZoneById",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Zone"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Zone updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Zones"
+        ],
+        "summary": "Delete a zone.",
+        "description": "Deletes the zone object with the given id.",
+        "operationId": "deleteZoneById",
+        "responses": {
+          "204": {
+            "description": "Zone deleted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/zones/{zone_id}/transform": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_zone_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Zones"
+        ],
+        "summary": "Transform a position based on a zone.",
+        "description": "Transforms the coordinates of a position based on the zone with the given id to geographic or local coordinates.",
+        "operationId": "TransformByZoneId",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/geojson"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimpleTransform"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Transformation done.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleTransform"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/zones/{zone_id}/createfence": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_zone_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Zones"
+        ],
+        "summary": "Create a fence object from a zone.",
+        "description": "Creates a geofence object using the ground control points of the zone with the given id.",
+        "operationId": "createFenceFromZone",
+        "responses": {
+          "200": {
+            "description": "A fence object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fence"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/trackables/summary": {
+      "get": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Get an array of all trackables.",
+        "description": "Returns an array of all trackable objects. If authorization is enabled only the corresponding trackables are returned.",
+        "operationId": "getAllTrackableObjects",
+        "responses": {
+          "200": {
+            "description": "An array of all trackable objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Trackable"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/trackables": {
+      "get": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Get an array of all trackable ids.",
+        "description": "This function returns an array of ids of all available trackables. If authorization is enabled only the corresponding trackable ids are returned.",
+        "operationId": "getAllTrackableIds",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/UuidArray"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Create a trackable.",
+        "description": "Creates a new trackable with a randomly generated id.",
+        "operationId": "createNewTrackable",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/force_location_update"
+          },
+          {
+            "$ref": "#/components/parameters/subdivide"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Trackable"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Trackable created.",
+            "headers": {
+              "Location": {
+                "description": "The path to the created object.",
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trackable"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Delete all trackables.",
+        "description": "This function deletes all trackables known to the system.",
+        "operationId": "deleteAllTrackables",
+        "responses": {
+          "204": {
+            "description": "All trackables deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/trackables/{trackable_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_trackable_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Get a trackable.",
+        "description": "Returns the trackable object with the given id.",
+        "operationId": "getTrackableById",
+        "responses": {
+          "200": {
+            "description": "Trackable object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trackable"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Delete a trackable.",
+        "description": "Deletes the trackable object with the given id.",
+        "operationId": "deleteTrackableById",
+        "responses": {
+          "204": {
+            "description": "Trackable deleted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Updates a trackable.",
+        "description": "Updates the trackable object with the given id.",
+        "operationId": "updateTrackableById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/force_location_update"
+          },
+          {
+            "$ref": "#/components/parameters/subdivide"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Trackable"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Trackable updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/trackables/{trackable_id}/fences": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_trackable_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Get all fences the trackable is within.",
+        "description": "Returns all fences for which the trackable is currently considered as being inside the respective fence, e.g., for which a region entry fence event was triggered.",
+        "operationId": "getInsideFenceForTrackable",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/spatial_query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fence objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fence"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/trackables/{trackable_id}/location": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_trackable_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Get a location.",
+        "description": "Returns the most significant location of the trackable with the given id, with consideration of all recent location updates from the trackable's location providers.",
+        "operationId": "getMostSignificantTrackableLocation",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A location object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/trackables/{trackable_id}/locations": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_trackable_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Get all locations.",
+        "description": "Returns the last known location of the trackable with the given id for all of its location providers.",
+        "operationId": "getAllTrackableLocations",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All location objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Location"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/trackables/{trackable_id}/motion": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_trackable_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Get a motion.",
+        "description": "Returns the motion object for the trackable with the given id.",
+        "operationId": "getTrackableMotion",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A trackable motion object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackableMotion"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+      "/trackables/{trackable_id}/providers": {
+    "get": {
+      "tags": [
+        "Trackables"
+      ],
+      "summary": "Get location providers of a trackable",
+      "description": "Retrieve a list of location provider IDs associated with a specific trackable.",
+      "operationId": "get_providers_of_trackable",
+      "parameters": [
+        {
+          "name": "trackable_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved list of providers",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/LocationProvider"
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "$ref": "#/components/responses/401"
+        },
+        "403": {
+          "$ref": "#/components/responses/403"
+        },
+        "404": {
+          "$ref": "#/components/responses/404"
+        }
+      }
+    }
+  },
+    "/trackables/{trackable_id}/sensors": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_trackable_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Get an array of sensor objects.",
+        "description": "Returns data from the sensors of all location providers associated with the trackable with the given id.",
+        "operationId": "getAllTrackableSensors",
+        "responses": {
+          "200": {
+            "description": "All sensor data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnyType"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/trackables/motions": {
+      "get": {
+        "tags": [
+          "Trackables"
+        ],
+        "summary": "Get an array of all trackable motion objects.",
+        "description": "Returns an array of all trackable motion objects. If authorization is enabled only the corresponding trackable motions are returned.",
+        "operationId": "getAllTrackableMotions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of all trackable motion objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrackableMotion"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/providers/summary": {
+      "get": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Get an array of all location providers.",
+        "description": "Returns an array of all location provider objects. If authorization is enabled only the corresponding providers are returned.",
+        "operationId": "getAllProviderObjects",
+        "responses": {
+          "200": {
+            "description": "An array of all location provider summaries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocationProvider"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/providers": {
+      "get": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Get an array of all location provider ids.",
+        "description": "This function returns an array of ids of all available providers. If authorization is enabled only the corresponding provider ids are returned.",
+        "operationId": "getLocationProviderIds",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/IdArray"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Create a location provider.",
+        "description": "Creates a new location provider and returns the created object.",
+        "operationId": "createLocationProvider",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationProvider"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Location provider created.",
+            "headers": {
+              "Location": {
+                "description": "The path to the created object.",
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationProvider"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Delete all location providers.",
+        "description": "This function deletes all location providers known to the system.",
+        "operationId": "deleteProviders",
+        "responses": {
+          "204": {
+            "description": "All providers deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/providers/{provider_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_provider_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Get a location provider.",
+        "description": "Returns the location provider object with the given id.",
+        "operationId": "getProviderById",
+        "responses": {
+          "200": {
+            "description": "A location provider object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationProvider"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Update a location provider.",
+        "description": "Updates the location provider object with the given id.",
+        "operationId": "updateProviderById",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationProvider"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Location provider updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Delete location provider.",
+        "description": "Deletes the location provider object with the given id.",
+        "operationId": "deleteProviderById",
+        "responses": {
+          "204": {
+            "description": "Location provider deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/providers/{provider_id}/fences": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_provider_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Get all fences the location provider is within.",
+        "description": "Returns all fences for which the location provider is currently considered as being inside the respective fence, e.g., for which a region entry fence event was triggered.",
+        "operationId": "getInsideFenceForProvider",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/spatial_query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fence objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fence"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/providers/{provider_id}/location": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_provider_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Update location.",
+        "description": "This method updates the current location of the location provider with the given id.",
+        "operationId": "updateLocationByProviderId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Location"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Location accepted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Get location.",
+        "description": "Returns the last known location for a location provider.",
+        "operationId": "getLocationByProviderId",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A location object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Delete location of location provider.",
+        "description": "Deletes the location object of the provider with the given id.",
+        "operationId": "deleteProviderLocationById",
+        "responses": {
+          "204": {
+            "description": "The location object was deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/providers/{provider_id}/proximity": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_provider_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Update location of location provider via a proximity event.",
+        "description": "This method updates the current location of one location provider by an emitted proximity event. A location object is generated internally by using the position and floor information related to the omlox™ zone that generated the proximity event.",
+        "operationId": "updateProximityByProviderId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Proximity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Proximity accepted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/providers/{provider_id}/sensors": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_provider_id"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Update sensor data.",
+        "description": "This method updates the sensor data of the location provider with the given id.",
+        "operationId": "updateSensorsByProviderId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnyType"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Sensor data accepted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Get sensor data.",
+        "description": "Returns the sensor data for the location provider with the given id.",
+        "operationId": "getSensorsByProviderId",
+        "responses": {
+          "200": {
+            "description": "Sensor data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnyType"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/providers/{provider_id}/trackables": {
+      "get": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Get all trackable bound to a specific location provider",
+        "description": "Retrieve a list of trackables that are bound to a specific location provider.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/path_provider_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved list of trackables",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Trackable"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/providers/locations": {
+      "get": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Get all locations.",
+        "description": "Returns the last known location for all location providers. If authorization is enabled only the corresponding locations are returned.",
+        "operationId": "getAllLocations",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All location objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Location"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Update locations.",
+        "description": "This path is used to update multiple locations in a bulk operation.",
+        "operationId": "updateLocations",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Locations accepted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Delete all location providers.",
+        "description": "This function deletes all location providers known to the system.",
+        "operationId": "deleteLocations",
+        "responses": {
+          "204": {
+            "description": "All locations deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/providers/proximities": {
+      "put": {
+        "tags": [
+          "Providers"
+        ],
+        "summary": "Bulk update of locations based on proximity events.",
+        "description": "This method updates locations related to proximity events in a bulk operation. Location objects are generated internally by using the position and floor information related to the omlox™ zone that generated the proximity events.",
+        "operationId": "updateProximities",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Proximity"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Proximities accepted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/fences/summary": {
+      "get": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Get an array of all fences.",
+        "description": "Returns an array of all fence objects. If authorization is enabled only the corresponding fences are returned.",
+        "operationId": "getAllFences",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of all fence objects. Returned fence objects use EPSG:4326 (\"GPS\") as the projection for the region coordinates, unless another projection is requested.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fence"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/fences": {
+      "get": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Get an array of all fence ids.",
+        "description": "This function returns an array of ids of all available fences. If authorization is enabled only the corresponding fence ids are returned.",
+        "operationId": "getAllFenceIds",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/UuidArray"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Create a fence.",
+        "description": "Creates a new fence and returns the created object.",
+        "operationId": "createFence",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/subdivide"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fence"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Fence created.",
+            "headers": {
+              "Location": {
+                "description": "The path to the created object.",
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fence"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Delete all fences.",
+        "description": "This function deletes all fences known to the system.",
+        "operationId": "deleteFences",
+        "responses": {
+          "204": {
+            "description": "All fences deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/fences/{fence_id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_fence_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Get a fence.",
+        "description": "Returns the fence object with the given id.",
+        "operationId": "getFenceById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested fence object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fence"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Update a fence.",
+        "description": "Updates the fence object with the given id.",
+        "operationId": "updateFenceById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/subdivide"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fence"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Fence object updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Delete a fence.",
+        "description": "Deletes the fence object with the given id.",
+        "operationId": "deleteFenceById",
+        "responses": {
+          "204": {
+            "description": "Fence object deleted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/fences/{fence_id}/locations": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_fence_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Get location data of all location providers within a fence.",
+        "description": "Returns locations of location providers which are currently considered as being inside the given fence, e.g., for which a region entry fence event was triggered.",
+        "operationId": "getLocationsInsideFence",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          },
+          {
+            "$ref": "#/components/parameters/spatial_query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of all locations inside the fence.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Location"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/fences/{fence_id}/motions": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_fence_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Get motion data of all trackables within a fence.",
+        "description": "Returns motions of trackables which are currently considered as being inside the given fence, e.g., for which a region entry fence event was triggered.",
+        "operationId": "getTrackableMotionsInsideFence",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/crs"
+          },
+          {
+            "$ref": "#/components/parameters/zone_id"
+          },
+          {
+            "$ref": "#/components/parameters/geojson"
+          },
+          {
+            "$ref": "#/components/parameters/spatial_query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of all trackable motions inside the fence.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrackableMotion"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/fences/{fence_id}/providers": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_fence_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Get all location providers within a fence.",
+        "description": "Returns location providers which have a location that is currently considered as being inside the given fence, e.g., for which a region entry fence event was triggered.",
+        "operationId": "getProvidersInsideFence",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/spatial_query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of all location providers inside the fence.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocationProvider"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/fences/{fence_id}/trackables": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_fence_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Fences"
+        ],
+        "summary": "Get all trackables within a fence.",
+        "description": "Returns trackables which have a location that is currently considered as being inside the given fence, e.g., for which a region entry fence event was triggered.",
+        "operationId": "getTrackablesInside",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/spatial_query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of all trackables inside the fence.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Trackable"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/ws/socket": {
+      "put": {
+        "tags": [
+          "WebSocket"
+        ],
+        "summary": "WebSocket publish/subscribe channel.",
+        "description": "WebSocket publish/subscribe channel. Note: This API is only a placeholder for the omlox™ WebSocket connection. This URL does not exist for the REST interface.",
+        "operationId": "websocketPubSub",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebsocketSubscriptionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Subscription response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WebsocketSubscriptionResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          }
+        }
+      }
+    }
+  },
+  "openapi": "3.0.2",
+  "info": {
+    "title": "omlox Hub",
+    "description": "Note: This API definition is not the official omlox Hub standard. The official omlox Hub API & behaviour specification, which describes in detail how the omlox hub works, is only accessible to registered PNO members.",
+    "version": "2.0.0",
+    "contact": {
+      "name": "PROFIBUS Nutzerorganisation e.V. (PNO)",
+      "email": "info@omlox.com",
+      "url": "https://www.omlox.com"
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "components": {
+    "schemas": {
+      "AnyType": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "array",
+            "items": {}
+          },
+          {
+            "type": "object"
+          }
+        ]
+      },
+      "Collision": {
+        "required": [
+          "id",
+          "object_type"
+        ],
+        "type": "object",
+        "description": "Collision information for a colliding object.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A unique identifier, e.g. representing the trackable id."
+          },
+          "object_type": {
+            "type": "string",
+            "description": "The object type associated to the id.",
+            "example": "trackable",
+            "enum": [
+              "trackable"
+            ]
+          },
+          "position": {
+            "$ref": "#/components/schemas/Point",
+            "description": "The original position of e.g. the location provider."
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/Polygon",
+            "description": "The trackable's polygon, e.g. generated by its radius."
+          },
+          "floor": {
+            "type": "number",
+            "description": "A logical and non-localized representation for a building floor. Floor 0 represents the floor designated as 'ground'. Negative numbers designate floors below the ground floor, and positive numbers indicate floors above the ground floor. When implemented, the floor value MUST match described logical numbering scheme, which can be different from any numbering used within a building. Values can be expressed as an integer value, or as a float as required for mezzanine floor levels. If a value for the floor level is not provided, 0 MUST be assumed."
+          }
+        }
+      },
+      "CollisionEvent": {
+        "required": [
+          "id",
+          "collision_type",
+          "collisions"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "A unique identifier for this event."
+          },
+          "collision_type": {
+            "type": "string",
+            "description": "The collision event type. Either \"collision_start\", \"colliding\", or \"collision_end\". Type \"collision_start\" MUST be set when two objects collide, \"colliding\" MUST be set when two objects are still colliding after a position update, and \"collision_end\" MUST be set when two previously colliding objects separate from each other.",
+            "example": "collision_start",
+            "enum": [
+              "collision_start",
+              "colliding",
+              "collision_end"
+            ]
+          },
+          "start_time": {
+            "type": "string",
+            "description": "The timestamp when the two objects first collided. The timestamp MUST be an ISO 8601 timestamp using UTC timezone and it SHOULD have millisecond precision.",
+            "example": "2019-09-02T22:02:20.100Z"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "The timestamp when the two objects were released from a collision with each other. The timestamp MUST be an ISO 8601 timestamp using UTC timezone and it SHOULD have millisecond precision.",
+            "example": "2019-09-02T22:02:40.200Z"
+          },
+          "collision_time": {
+            "type": "string",
+            "description": "The timestamp when the continuing collision event was triggered, e.g. two objects started colliding and a collision_start event was sent and continue colliding after another position update was sent. The timestamp MUST be an ISO 8601 timestamp using UTC timezone and it SHOULD have millisecond precision.",
+            "example": "2019-09-02T22:02:24.357Z"
+          },
+          "collisions": {
+            "description": "The two objects colliding with each other. The first object in the array MUST be the object which triggered the event. For example, location for trackable A was updated and is now colliding with trackable B, thus trackable A triggered this particular event and must come first.",
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "$ref": "#/components/schemas/Collision"
+            }
+          },
+          "collision_area": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LineString"
+              },
+              {
+                "$ref": "#/components/schemas/Point"
+              }
+            ]
+          },
+          "center_distance": {
+            "description": "The center-to-center distance between the two colliding objects in meters."
+          }
+        }
+      },
+      "Error": {
+        "required": [
+          "type",
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "A text representation of the error type.",
+            "example": "bad request"
+          },
+          "code": {
+            "type": "number",
+            "description": "HTTP status code",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "description": "A human readable error message which may give a hint to what went wrong.",
+            "example": "The request could not be processed due to an error."
+          }
+        }
+      },
+      "Fence": {
+        "required": [
+          "id",
+          "region"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Must be a unique identifier (i.e. a UUID). When creating a fence, a unique id will be generated if it is not provided."
+          },
+          "region": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Point"
+              },
+              {
+                "$ref": "#/components/schemas/Polygon"
+              }
+            ],
+            "description": "A GeoJSON geometry defining the region of the geofence."
+          },
+          "radius": {
+            "type": "number",
+            "description": "If the region is a point, the radius defines a circular region around that point in meters. The radius value is ignored for polygonal regions."
+          },
+          "extrusion": {
+            "type": "number",
+            "description": "The extrusion to be applied to the geometry in meters. Must be a positive number. If not set, or set to null, it will default to MAX_EXTRUSION. If not set, or set to null, and a floor is not specified, the extrusion is infinite. If not set, or set to null, and a floor is specified, the extrusion is clamped to the specified floor. If set to 0, the geometry will have an extrusion of 0m and will be treated as a slice/plane. If a z-coordinate is provided by a Location Provider, it MUST match with the extrusion."
+          },
+          "floor": {
+            "type": "number",
+            "description": "The canonical representation of the floor level, where floor 0 is the ground floor.",
+            "example": 4
+          },
+          "foreign_id": {
+            "type": "string",
+            "description": "The foreign_id represents a foreign unique identifier for the origin of a fence event, such as an UWB zone id or an iBeacon identifier. If a foreign_id is set, the foreign id MUST be resolved by the DeepHub."
+          },
+          "name": {
+            "type": "string",
+            "description": "A textual representation of the fence."
+          },
+          "timeout": {
+            "type": "number",
+            "description": "The timeout in milliseconds after which a location should expire and trigger a fence exit event (if no more location updates are sent). Must be a positive number or -1 in case of an infinite timeout. If not set, or set to null, it will default to infinite.",
+            "example": 5
+          },
+          "exit_tolerance": {
+            "type": "number",
+            "description": "The distance tolerance to a fence in meters before an exit event is triggered. Useful for locations nearby or on the border of a fence to avoid fluctuating fence  / exit events. For example, a location which was previously inside a fence will remain within the fence when its distance to the fence is less than or equal to the given tolerance. Must be a positive number. If not set, or null, the exit_tolerance will default to 0.",
+            "example": 2
+          },
+          "tolerance_timeout": {
+            "type": "number",
+            "description": "The timeout in milliseconds after which a location outside of a fence, but still within exit_tolerance distance to that fence, should trigger a fence exit event. For example, assume an exit_tolerance of 1m: A location previously within the fence is now located 50cm outside of the fence and remains within the given exit_tolerance distance to that fence. An exit event is triggered after tolerance_timeout when the location remains outside of the fence. The provided number must be positive or -1 in case of an infinite tolerance_timeout. If not set, or null, tolerance_timeout will default to 0.",
+            "example": 5000
+          },
+          "exit_delay": {
+            "type": "number",
+            "description": "The delay in milliseconds in which an imminent exit event should wait for another location update. This is relevant for fast rate position updates with quick moving objects. For example, an RTLS provider may batch location updates into groups, resulting in distances being temporarily outdated and premature events between quick moving objects. The provided number must be positive or -1 in case of an infinite exit_delay. If not set, or null, exit_delay will default to 0.",
+            "example": 100
+          },
+          "crs": {
+            "type": "string",
+            "description": "A projection identifier defining the projection of the fence region coordinates. The crs MUST be either a valid EPSG identifier (https://epsg.io) or 'local' if the fence region is provided as relative coordinates of a zone. If crs is not present, 'EPSG:4326' (\"GPS\") MUST be assumed as the default."
+          },
+          "zone_id": {
+            "type": "string",
+            "description": "The zone id related to the fence's region. This field MUST be present in case crs projection is set to 'local'."
+          },
+          "elevation_ref": {
+            "type": "string",
+            "description": "An elevation reference hint for the position's z component. If present, it MUST be either 'floor' or 'wgs84'. If set to 'floor' the z component MUST be assumed to be relative to the floor level. If set to 'wgs84' the z component MUST be treated as WGS84 ellipsoidal height. For the majority of applications an accurate geographic height may not be available. Therefore elevation_ref MUST be assumed 'floor' by default if this property is not present.",
+            "example": "floor"
+          },
+          "properties": {
+            "type": "object",
+            "description": "Any additional application or vendor specific properties. An application implementing this object is not required to interpret any of the custom properties, but it MUST preserve the properties if set."
+          }
+        }
+      },
+      "FenceEvent": {
+        "required": [
+          "id",
+          "event_type",
+          "fence_id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "A unique identifier for this event."
+          },
+          "fence_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The fence which generated this event."
+          },
+          "event_type": {
+            "type": "string",
+            "description": "The event type, one of \"region_entry\", \"region_exit\".",
+            "example": "region_entry",
+            "enum": [
+              "region_entry",
+              "region_exit"
+            ]
+          },
+          "provider_id": {
+            "type": "string",
+            "description": "The id of the Location Provider which triggered this event. Note: provider_id must be null in case the event was triggered by a Trackable.",
+            "example": "60BB1866-2DC0-4A5B-9C9D-114583BD66B3"
+          },
+          "trackable_id": {
+            "type": "string",
+            "description": "The id of the Trackable for which the event was generated. Note: trackable_id must be null in case the event was triggered by a Location Provider.",
+            "example": "3410BEB0-C134-4807-BC1F-C130D038C0C4"
+          },
+          "trackables": {
+            "type": "array",
+            "description": "The ids of trackables the provider is assigned to.",
+            "items": {
+              "type": "string",
+              "example": "3EE36F6C-6974-4084-81D8-A876DFA27FA6",
+              "format": "uuid"
+            }
+          },
+          "foreign_id": {
+            "type": "string",
+            "description": "An optional unique foreign identifier related to this event, e.g. an ibeacon identifier. The foreign_id SHOULD be set if available.",
+            "example": "60BB1866-2DC0-4A5B-9C9D-114583BD66B3"
+          },
+          "entry_time": {
+            "type": "string",
+            "description": "The timestamp when the location was first registered inside the fence. The timestamp MUST be an ISO 8601 timestamp using UTC timezone and it SHOULD have millisecond precision.",
+            "example": "2019-09-02T22:02:20.200Z"
+          },
+          "exit_time": {
+            "type": "string",
+            "description": "The timestamp when the exit event was triggered. The timestamp MUST be an ISO 8601 timestamp using UTC timezone and it SHOULD have millisecond precision.",
+            "format": "date-time",
+            "example": "2019-09-02T22:02:30.100Z"
+          },
+          "properties": {
+            "type": "object",
+            "description": "Application specific properties copied from the Fence object for which the event was triggered. An application is not required to interpret any of the custom properties, but it MUST preserve the properties if set."
+          }
+        }
+      },
+      "LineString": {
+        "type": "object",
+        "description": "GeoJSON LineString geometry. Important: A LineString object MUST be interpreted according to a coordinate reference system (crs). The ordering of components is x, y, z or longitude, latitude, elevation respectively as according to the GeoJSON specification.",
+        "externalDocs": {
+          "url": "http://geojson.org/geojson-spec.html#id4"
+        },
+        "example": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              7.815694,
+              48.130216
+            ],
+            [
+              7.816551,
+              48.130094
+            ],
+            [
+              7.816582,
+              48.130188
+            ],
+            [
+              7.8157249,
+              48.13031
+            ],
+            [
+              7.815694,
+              48.130216
+            ]
+          ]
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "LineString"
+            ]
+          },
+          "coordinates": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "LocatingRule": {
+        "required": [
+          "expression",
+          "priority"
+        ],
+        "type": "object",
+        "properties": {
+          "expression": {
+            "type": "string",
+            "description": "The conditions of the LocatingRule. Supported properties are: accuracy, provider_id, type, source, floor, speed, timestamp_diff.",
+            "example": "type = 'uwb' AND accuracy < 5"
+          },
+          "priority": {
+            "type": "number",
+            "description": "The priority of the LocatingRule. The higher the value the higher the priority of the rule.",
+            "example": 9
+          }
+        },
+        "example": {
+          "expression": "type = 'uwb'",
+          "priority": 9
+        }
+      },
+      "Location": {
+        "required": [
+          "position",
+          "source",
+          "provider_type",
+          "provider_id"
+        ],
+        "type": "object",
+        "properties": {
+          "position": {
+            "$ref": "#/components/schemas/Point"
+          },
+          "source": {
+            "type": "string",
+            "description": "Represents the unique identifier of the RTLS system (zone_id or foreign_id) which generated this location object, or the id of a self-localizing device (e.g. a UWB tag / provider_id in GPS mode).",
+            "example": "A8C01D4C-333A-4406-B2E9-A174AD295CB1"
+          },
+          "provider_type": {
+            "type": "string",
+            "description": "The location provider type which triggered this location update.",
+            "example": "uwb",
+            "enum": [
+              "uwb",
+              "gps",
+              "wifi",
+              "rfid",
+              "ibeacon",
+              "virtual",
+              "unknown"
+            ]
+          },
+          "provider_id": {
+            "type": "string",
+            "description": "The location provider's unique identifier, e.g. the mac address of a UWB location provider.",
+            "example": "77:4f:34:69:27:40"
+          },
+          "timestamp_generated": {
+            "type": "string",
+            "description": "The timestamp when the location was calculated. The timestamp MUST be an ISO 8601 timestamp using UTC timezone and it SHOULD have millisecond precision to allow for precise speed and course calculations.",
+            "format": "date-time",
+            "example": "2019-09-02T22:02:24.355Z"
+          },
+          "timestamp_sent": {
+            "type": "string",
+            "description": "The timestamp when the location was sent over the network. The timestamp MUST be an ISO 8601 timestamp using UTC timezone and it SHOULD have millisecond precision. Note: No delivery guarantee is made in case the data is lost in transit.",
+            "format": "date-time",
+            "example": "2019-09-02T22:02:24.357Z"
+          },
+          "crs": {
+            "type": "string",
+            "description": "A projection identifier defining the projection of the provided location coordinate. The crs MUST be either a valid EPSG identifier (https://epsg.io) or 'local' if the location is provided as a relative coordinate of the floor plan. For best interoperability and worldwide coverage, WGS84 (EPSG:4326) SHOULD be the preferred projection (as used also by GPS). If the crs field is not present, 'local' MUST be assumed as the default.",
+            "example": "EPSG:4326"
+          },
+          "associated": {
+            "type": "boolean",
+            "description": "Whether a client is currently associated to a network. This property SHOULD be set if available for WiFi based positioning.",
+            "example": false
+          },
+          "accuracy": {
+            "type": "number",
+            "description": "The horizontal accuracy of the location update in meters.",
+            "example": 1
+          },
+          "floor": {
+            "type": "number",
+            "description": "A logical and non-localized representation for a building floor. Floor 0 represents the floor designated as 'ground'. Negative numbers indicate floors below the ground floor and positive numbers indicate floors above the ground floor. When implemented, the floor value MUST match described logical numbering scheme, which can be different from any numbering used within a building. Values can be expressed as an integer value, or as a float as required for mezzanine floor levels.",
+            "example": 4
+          },
+          "true_heading": {
+            "type": "number",
+            "description": "An accurate orientation reading from a 'true' heading direction. The 'true' magnetic as opposed to the normal magnetic heading. Applications SHOULD prefer the true heading if available. An invalid or currently unavailable heading MUST be indicated by a negative value.",
+            "example": 4
+          },
+          "magnetic_heading": {
+            "type": "number",
+            "description": "The magnetic heading direction, which deviates from the true heading by a few degrees and differs slightly depending on the location on the globe.",
+            "example": 4
+          },
+          "heading_accuracy": {
+            "type": "number",
+            "description": "The maximum deviation in degrees between the reported heading and the true heading.",
+            "example": 4
+          },
+          "elevation_ref": {
+            "type": "string",
+            "description": "An elevation reference hint for the position's z component. If present it MUST be either 'floor' or 'wgs84'. If set to 'floor' the z component MUST be assumed to be relative to the floor level. If set to 'wgs84' the z component MUST be treated as WGS84 ellipsoidal height. For the majority of applications an accurate geographic height may not be available. Therefore elevation_ref MUST be assumed 'floor' by default if this property is not present.",
+            "example": "floor"
+          },
+          "speed": {
+            "type": "number",
+            "description": "The current speed in meters per second. If the value is null or the property is not set, the current speed MAY be approximated by DeepHub based on the timestamp_generated value of a previous location update.",
+            "example": 1.1
+          },
+          "course": {
+            "type": "number",
+            "description": "The current course (\"compass direction\"), which is the direction measured clockwise as an angle from true north on a compass (north is 0°, east is 90°, south is 180°, and west is 270°). If the value is null or the property is not set, the course will be approximated by DeepHub based on the previous location.",
+            "example": 32.2
+          },
+          "trackables": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "properties": {
+            "type": "object",
+            "description": "Any additional application or vendor specific properties. An application implementing this object is not required to interpret any of the custom properties, but it MUST preserve the properties if set."
+          }
+        }
+      },
+      "LocationProvider": {
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Must be a valid id for the specific location provider type (e.g. a MAC address of a UWB tag). Wherever applicable, the format of a MAC address MUST be an upper case EUI-64 hex-string representation, built from unsigned values, including leading zeros, without byte delimiters. Ids which can not be mapped to EUI-64 MAY deviate from this format.",
+            "example": "AABBCCDDEEFF0022"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the location provider. A virtual location provider can be used for assigning a unique id to a location provider which does not have a unique identifier by itself. For example, an iOS app will not get the MAC address of the Wi-Fi interface for WiFi positioning. Instead, it will create a virtual location provider to identify the provider and the trackable (iOS device) for location updates.",
+            "example": "uwb",
+            "enum": [
+              "uwb",
+              "gps",
+              "wifi",
+              "rfid",
+              "ibeacon",
+              "virtual",
+              "unknown"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "An optional name for the location provider.",
+            "example": "Employee tag 12"
+          },
+          "sensors": {
+            "description": "Sensor data related to a location provider. The actual structure of the sensor data is application defined.",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnyType"
+              }
+            ]
+          },
+          "fence_timeout": {
+            "type": "number",
+            "description": "The timeout in milliseconds after which a location should expire and trigger a fence exit event (if no more location updates are sent). If not set or null the timeout will default to infinite. The provided number must be positive.",
+            "example": 5
+          },
+          "exit_tolerance": {
+            "type": "number",
+            "description": "The minimum distance in meters to release from an ongoing collision or fence event. Must be a positive number. If not set or null exit_tolerance will default to 0."
+          },
+          "tolerance_timeout": {
+            "type": "number",
+            "description": "The timeout in milliseconds after which a collision outside of an obstacle but still within exit_tolerance distance should release from a collision or fence event. If not set or null the timeout will default to infinite. The provided number must be positive."
+          },
+          "exit_delay": {
+            "type": "number",
+            "description": "The delay in milliseconds in which an imminent exit event should wait for another location update. This is relevant for fast rate position updates with quick moving objects. For example, an RTLS provider may batch location updates into groups, resulting in distances being temporarily outdated and premature events between quickly moving objects. If not set or null, exit_delay will default to 0.",
+            "example": 100
+          },
+          "properties": {
+            "type": "object",
+            "description": "Any additional application or vendor specific properties. An application implementing this object is not required to interpret any of the custom properties, but it MUST preserve the properties if set."
+          }
+        }
+      },
+      "Point": {
+        "type": "object",
+        "description": "A GeoJSON Point geometry. Describes a point (ie. a position) in 2 or 3 dimensions. Important: A Point object MUST be interpreted according to a coordinate reference system (crs), e.g. the crs field in the Location object. As an example, if a Position object with relative x,y,z data from an UWB system is given in the coordinate system of a local zone, a transformation would need to be applied to convert the position to a geographic coordinate. Alternatively, a Position may contain a geographic coordinate (longitude, latitude) from a GPS system (where no coordinate transformation is needed), or position data in a UTM zone projection (where transformation would be required). The ordering of components is x,y,z or longitude,latitude,elevation respectively as according to the GeoJSON specification.",
+        "externalDocs": {
+          "url": "http://geojson.org/geojson-spec.html#id2"
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Point"
+            ]
+          },
+          "coordinates": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 3,
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "example": {
+          "type": "Point",
+          "coordinates": [
+            7.815694,
+            48.13021599999995
+          ]
+        }
+      },
+      "Polygon": {
+        "type": "object",
+        "description": "A GeoJSON Polygon geometry. Important: A Polygon object MUST be interpreted according to a coordinate reference system (crs). Therefore, coordinates MUST match the CRS which MUST be either a valid EPSG identifier (https://epsg.io) or 'local‘ if it is provided as a relative coordinate. The ordering of components is x,y,z or longitude,latitude,elevation respectively as according to the GeoJSON specification.",
+        "externalDocs": {
+          "url": "http://geojson.org/geojson-spec.html#id4"
+        },
+        "example": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7.815694,
+                48.130216
+              ],
+              [
+                7.816551,
+                48.130094
+              ],
+              [
+                7.816582,
+                48.130188
+              ],
+              [
+                7.8157249,
+                48.13031
+              ],
+              [
+                7.815694,
+                48.130216
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Polygon"
+            ]
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 3,
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Proximity": {
+        "required": [
+          "source",
+          "provider_type",
+          "provider_id"
+        ],
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Represents the unique identifier of the proximity system (ie. zone_id or foreign_id) that generated the proximity object. For example, this could be the RFID station id or iBeacon UUID.",
+            "example": "A8C01D4C-333A-4406-B2E9-A174AD295CB1"
+          },
+          "provider_type": {
+            "type": "string",
+            "description": "The location provider type that triggered the proximity update.",
+            "example": "rfid",
+            "enum": [
+              "rfid",
+              "ibeacon",
+              "virtual",
+              "unknown"
+            ]
+          },
+          "provider_id": {
+            "type": "string",
+            "description": "The location provider unique identifier, e.g. the UID or TID of a RFID tag.",
+            "example": "02b0a5fd"
+          },
+          "timestamp_generated": {
+            "type": "string",
+            "description": "The timestamp when the location was calculated. The timestamp MUST be an ISO 8601 timestamp using UTC timezone and it SHOULD have millisecond precision to allow for precise speed and course calculations.",
+            "format": "date-time",
+            "example": "2019-09-02T22:02:24.355Z"
+          },
+          "timestamp_sent": {
+            "type": "string",
+            "description": "The timestamp when the location was sent over the network. The timestamp MUST be an ISO 8601 timestamp using UTC timezone and it SHOULD have millisecond precision. Note: No delivery guaranty is made in case the data is lost on transit.",
+            "format": "date-time",
+            "example": "2019-09-02T22:02:24.357Z"
+          },
+          "accuracy": {
+            "type": "number",
+            "description": "The estimated distance in meters to the center of the proximity event emitter (e.g. the distance to the iBeacon).",
+            "example": 1
+          },
+          "properties": {
+            "type": "object",
+            "description": "Any additional application or vendor specific properties. An application implementing this object is not required to interpret any of the custom properties, but it MUST preserve the properties if set."
+          }
+        }
+      },
+      "RuleSet": {
+        "type": "array",
+        "description": "The RuleSet is an array consisting of rules.",
+        "items": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/LocatingRule"
+            }
+          ]
+        }
+      },
+      "SimpleTransform": {
+        "required": [
+          "position"
+        ],
+        "type": "object",
+        "properties": {
+          "position": {
+            "$ref": "#/components/schemas/Point"
+          },
+          "source": {
+            "type": "string",
+            "description": "The id of the zone which was used for the transformation.",
+            "example": "A8C01D4C-333A-4406-B2E9-A174AD295CB1"
+          },
+          "crs": {
+            "type": "string",
+            "description": "The projection identifier defining the projection of the provided coordinate. For SimpleTransforms the only valid options 'local' and 'EPSG:4326'. If no crs is given, 'local' is assumed.",
+            "example": "EPSG:4326"
+          }
+        }
+      },
+      "Trackable": {
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Must be a unique identifier (i.e. a UUID). When creating a trackable, a unique id will be generated if one is not provided.",
+            "example": "F2A6FC5A-DDBD-4523-B06C-0FA675A3787C"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "omlox",
+              "virtual"
+            ],
+            "example": "omlox",
+            "description": "Either 'omlox' or 'virtual'. An omlox™ compatible trackable knows it's location providers (e.g. embedded UWB, BLE, RFID hardware), and self-assigns it's location providers. A virtual trackable can be used to assign location providers to a logical asset."
+          },
+          "name": {
+            "type": "string",
+            "description": "A describing name."
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/Polygon"
+          },
+          "extrusion": {
+            "type": "number",
+            "description": "The extrusion to be applied to the geometry in meters. Must be a positive number. If not set, or set to null, it will default to MAX_EXTRUSION. If not set, or set to null, and a floor is not specified, the extrusion is infinite. If not set, or set to null, and a floor is specified, the extrusion is clamped to the specified floor. If set to 0, the geometry will have an extrusion of 0m and will be treated as a slice/plane. If a z-coordinate is provided by a Location Provider, it MUST match with the extrusion."
+          },
+          "location_providers": {
+            "type": "array",
+            "description": "The location provider ids (e.g. MAC addresses) assigned to the trackable. A location provider can only be assigned to one trackable at a time. Note: An application may create virtual location providers and assign these to a trackable if desired. This allows applications to identify trackables for location providers which themselves do not have a unique identifier (e.g. certain GPS devices).",
+            "items": {
+              "type": "string",
+              "example": "cc:de:24:11:32:45"
+            }
+          },
+          "fence_timeout": {
+            "type": "number",
+            "description": "The timeout in milliseconds after which a location should expire and trigger a fence exit event (if no more location updates are sent). Must be a positive number or -1 in case of an infinite timeout. If not set, or set to null, it will default to the fence setting.",
+            "example": 5
+          },
+          "exit_tolerance": {
+            "type": "number",
+            "description": "The minimum distance in meters for a trackable to release from an ongoing collision. For example, for a trackable that was previously colliding with another trackable by being inside a trackable's radius, the collision event will not be released from the collision until its distance to the trackable's geometry is at least the given exit_tolerance. Must be a positive number. If not set, or set to null, it will default to the fence setting."
+          },
+          "tolerance_timeout": {
+            "type": "number",
+            "description": "The timeout in milliseconds after which a collision outside of a trackable, but within exit_tolerance distance to another obstacle, should release from a collision. Must be a positive number or -1 in case of an infinite timeout. If not set, or set to null, it will default to the fence setting."
+          },
+          "exit_delay": {
+            "type": "number",
+            "description": "The delay in milliseconds in which an imminent exit event should wait for another location update. This is relevant for fast rate position updates with quick moving objects. For example, an RTLS provider may batch location updates into groups, resulting in distances being temporarily outdated and premature events between quickly moving objects. The provided number must be positive or -1 in case of an infinite exit_delay. If not set, or set to null, it will default to the fence setting.",
+            "example": 100
+          },
+          "radius": {
+            "type": "number",
+            "description": "A radius provided in meters, defining the approximate circumference of the trackable. If a radius value is set, all position updates from any of the Location Providers will generate a circular geometry for the trackable, where the position is the center and the circle will be generated with the given radius.",
+            "example": 100
+          },
+          "properties": {
+            "type": "object",
+            "description": "Any additional application or vendor specific properties. An application implementing this object is not required to interpret any of the custom properties, but it MUST preserve the properties if set."
+          },
+          "locating_rules": {
+            "$ref": "#/components/schemas/RuleSet"
+          }
+        }
+      },
+      "TrackableMotion": {
+        "required": [
+          "id",
+          "location"
+        ],
+        "type": "object",
+        "description": "Trackable position and shape update.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The trackable UUID for which this motion data was generated."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the trackable."
+          },
+          "extrusion": {
+            "type": "number",
+            "description": "The extrusion to be applied to the geometry in meters. Must be a positive number."
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/Polygon"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "properties": {
+            "type": "object",
+            "description": "A copy of application or vendor specific properties from the Trackable for which this TrackableMotion was generated. An application implementing this object is not required to interpret any of the custom properties, but it MUST preserve the properties if set. Properties MUST be copied from the related Trackable to this TrackableMotion object."
+          }
+        }
+      },
+      "WebsocketError": {
+        "required": [
+          "event",
+          "description",
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "enum": [
+              "error"
+            ],
+            "description": "Event type for the WebSocket message. Must be 'error' for error messages."
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the error.",
+            "example": "Subscription failed. There is no topic with name 'unknown_topic'."
+          },
+          "code": {
+            "type": "number",
+            "description": "A numeric code representing the error state.",
+            "enum": [
+              "10000 - Unknown event",
+              "10001 - Unknown topic",
+              "10002 - Subscription failed",
+              "10003 - Unsubscribe failed",
+              "10004 - Not authorized",
+              "10005 - Invalid data",
+              "10006 - Not authenticated",
+              "10007 - Invalid license"
+            ]
+          }
+        }
+      },
+      "WebsocketMessage": {
+        "required": [
+          "event",
+          "topic",
+          "payload"
+        ],
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "enum": [
+              "message"
+            ],
+            "description": "Event type for the WebSocket message. Must be 'message'."
+          },
+          "topic": {
+            "type": "string",
+            "enum": [
+              "location_updates",
+              "proximity_updates",
+              "fence_events",
+              "trackable_motions",
+              "collision_events"
+            ],
+            "description": "The topic for which this message was generated. The payload field must be interpreted according to the topic name. For example, for 'location_updates', the payload must contain a valid Location object."
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array containing valid omlox™ objects. There must be only one type of object contained within this array, and it must correspond to the topic. For example, the topic 'location_updates' must contain valid Location objects within the payload or an empty array."
+          }
+        }
+      },
+      "WebsocketSubscriptionResponse": {
+        "required": [
+          "event",
+          "topic",
+          "subscription_id"
+        ],
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "enum": [
+              "subscribed"
+            ],
+            "description": "Event type for the WebSocket message. Must be 'subscribed' to notify a subscriber about a successful subscription."
+          },
+          "topic": {
+            "type": "string",
+            "enum": [
+              "location_updates",
+              "proximity_updates",
+              "fence_events",
+              "trackable_motions",
+              "collision_events"
+            ],
+            "description": "The topic for which the subscription was created."
+          },
+          "subscription_id": {
+            "type": "number",
+            "description": "A numeric subscription id representing the actual subscription."
+          }
+        }
+      },
+      "WebsocketSubscriptionRequest": {
+        "required": [
+          "event",
+          "topic"
+        ],
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "enum": [
+              "subscribe"
+            ],
+            "description": "Event type for the WebSocket message. Must be 'subscribe' when subscribing to a topic."
+          },
+          "topic": {
+            "type": "string",
+            "enum": [
+              "location_updates",
+              "proximity_updates",
+              "fence_events",
+              "trackable_motions",
+              "collision_events"
+            ],
+            "description": "The topic to subscribe."
+          },
+          "params": {
+            "type": "object",
+            "description": "Optional parameter as a flat key / value property. Available parameters depend on the topic to subscribe. For example, crs and geojson params as defined for the location and fence API."
+          }
+        }
+      },
+      "Zone": {
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Must be a unique identifier (i.e. a UUID). When creating a zone, a unique id will be generated if it is not provided."
+          },
+          "foreign_id": {
+            "type": "string",
+            "description": "A foreign identifier related to the zone (e.g. a RFID scanner or a Wi-Fi map hierarchy)."
+          },
+          "position": {
+            "description": "The zone's position in EPSG:4326 (GPS) coordinates. For a complete configuration the position MUST be present for proximity based zones (RFID, iBeacon) and benchmark based zones, and is OPTIONAL for all other zone types. For proximity based positioning systems like RFID or iBeacon, the position represents the coordinates where the positioning system is located (e.g. the RFID scanner). For the benchmark based zone the position represents the global benchmark point. For all others, the position MAY be used as a hint for the location of the infrastructure.",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Point"
+              }
+            ]
+          },
+          "radius": {
+            "type": "number",
+            "description": "For proximity based systems. Describes the zone as a circular region with a given radius in meters around the position. The radius MUST be ignored for non-proximity based position providers."
+          },
+          "ground_control_points": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "description": "An array containing a mapping between geographic coordinates (longitude, latitude) in WGS84 and relative coordinates (x,y) provided by the positioning system of the zone. For a complete configuration this property MUST be present for non-proximity based positioning systems (UWB, Wi-Fi, etc). This property MUST NOT be present for proximity based positioning systems, as these refer to the fixed position.",
+            "example": [
+              [
+                7.815694,
+                48.130216
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                7.8157249,
+                48.13031
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                7.816582,
+                48.130188
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                7.816551,
+                48.130094
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          },
+          "incomplete_configuration": {
+            "type": "boolean",
+            "description": "Set to true to use an incomplete zone, which has to be further configured later. By default a complete configuration is required.",
+            "example": false
+          },
+          "measurement_timestamp": {
+            "type": "string",
+            "description": "The timestamp identifying when the EPSG:4326 coordinates for the zone definition were recorded. Using this value for location data processing is OPTIONAL. This value MAY be used for advanced coordinate projection. For example, to reflect tectonic drift of WGS84 location data which is fixed at the North American plate.",
+            "format": "date-time",
+            "example": "2019-09-02T22:02:24.357Z"
+          },
+          "type": {
+            "type": "string",
+            "description": "The positioning system type.",
+            "example": "uwb",
+            "enum": [
+              "uwb",
+              "wifi",
+              "rfid",
+              "ibeacon"
+            ]
+          },
+          "site": {
+            "type": "string"
+          },
+          "building": {
+            "type": "string"
+          },
+          "floor": {
+            "type": "number",
+            "description": "The canonical representation of the floor level, where floor 0 is the ground floor. If no floor is set or floor is null, 0 is used.",
+            "example": 4
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the zone.",
+            "example": "Zone A"
+          },
+          "description": {
+            "type": "string",
+            "description": "An optional description providing additional information for the zone.",
+            "example": "Zone handles production part movements for production step 9."
+          },
+          "address": {
+            "type": "string",
+            "description": "An address describing the location of the zone.",
+            "example": "Emmendinger Str. 21, 79331 Teningen, Germany"
+          },
+          "properties": {
+            "type": "object",
+            "description": "Any additional application or vendor specific properties. An application implementing this object is not required to interpret any of the custom properties, but it MUST preserve the properties if set."
+          },
+          "wgs84_height": {
+            "type": "number",
+            "description": "The reference height of the zone in WGS84 coordinates."
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Request could not be processed. The http code matches the given error code. Check error message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "Bad_Request": {
+                "$ref": "#/components/examples/Bad_Request"
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Request could not be processed. The http code matches the given error code. Check error message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "License_Invalid": {
+                "$ref": "#/components/examples/License_Invalid"
+              },
+              "Not_Authenticated": {
+                "$ref": "#/components/examples/Not_Authenticated"
+              }
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "Request could not be processed. The http code matches the given error code. Check error message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "Permission": {
+                "$ref": "#/components/examples/Permission"
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Request could not be processed. The http code matches the given error code. Check error message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "Not_Found": {
+                "$ref": "#/components/examples/Not_Found"
+              }
+            }
+          }
+        }
+      },
+      "UuidArray": {
+        "description": "An array of all ids.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      },
+      "IdArray": {
+        "description": "An array of all ids.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "400_license": {
+        "description": "Request could not be processed. The http code matches the given error code. Check error message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "License_Expired": {
+                "$ref": "#/components/examples/License_Expired"
+              },
+              "License_Is_Invalid": {
+                "$ref": "#/components/examples/License_Is_Invalid"
+              }
+            }
+          }
+        }
+      },
+      "404_license": {
+        "description": "Request could not be processed. The http code matches the given error code. Check error message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "License_Not_Started": {
+                "$ref": "#/components/examples/License_Not_Started"
+              }
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "Bad_Request": {
+        "value": {
+          "type": "com.flowcate.http.bad_request",
+          "code": 400,
+          "message": "Request could not be processed. The http code matches the given error code. Check error message for details."
+        }
+      },
+      "License_Expired": {
+        "value": {
+          "type": "com.flowcate.license.expired",
+          "code": 400,
+          "message": "The trial period has expired."
+        }
+      },
+      "License_Invalid": {
+        "value": {
+          "type": "com.flowcate.license.invalid",
+          "code": 401,
+          "message": "The request was rejected because the license is not valid."
+        }
+      },
+      "License_Is_Invalid": {
+        "value": {
+          "type": "com.flowcate.license.invalid",
+          "code": 400,
+          "message": "Could not contact license server."
+        }
+      },
+      "License_Not_Started": {
+        "value": {
+          "type": "com.flowcate.license.not_started",
+          "code": 404,
+          "message": "The trial was not started yet. Call /v2/license/starttrial to activate the trial license."
+        }
+      },
+      "Not_Authenticated": {
+        "value": {
+          "type": "com.flowcate.auth.authenticated",
+          "code": 401,
+          "message": "The request was rejected because no valid authentication was provided."
+        }
+      },
+      "Permission": {
+        "value": {
+          "type": "com.flowcate.auth.permission",
+          "code": 403,
+          "message": "The request was rejected because the operation is not permitted for the user."
+        }
+      },
+      "Not_Found": {
+        "value": {
+          "type": "com.flowcate.http.not_found",
+          "code": 404,
+          "message": "The specified resource was not found."
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "OpenID generated JWT bearer token.",
+        "bearerFormat": "JWT"
+      }
+    },
+    "parameters": {
+      "crs": {
+        "in": "query",
+        "name": "crs",
+        "schema": {
+          "type": "string"
+        },
+        "description": "Project according to the specified coordinate reference system identifier.",
+        "example": "EPSG:4326"
+      },
+      "foreign_id": {
+        "in": "query",
+        "name": "foreign_id",
+        "schema": {
+          "type": "string"
+        },
+        "description": "Find a zone by its foreign_id."
+      },
+      "force_location_update": {
+        "in": "query",
+        "name": "force_location_update",
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "If true, re-processes the most significant Location of the Location Providers assigned to this Trackable. No Location data stored in the hub will be changed. Events will be only generated in case of an actual change, for example if the new TrackableMotion causes the Trackable to enter a fence."
+      },
+      "geojson": {
+        "in": "query",
+        "name": "geojson",
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "If true, return the object as a GeoJSON object."
+      },
+      "georef": {
+        "in": "query",
+        "name": "georef",
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "If possible, the georeferenced position is calculated, based on the local position and zone id."
+      },
+      "spatial_query": {
+        "in": "query",
+        "name": "spatial_query",
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "If true, the query will be performed based strictly on spatial information, i.e. the last reported location. Otherwise, the query will take into account timeouts."
+      },
+      "subdivide": {
+        "in": "query",
+        "name": "subdivide",
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "If true, points will be added automatically to the submitted geometry to limit the distance between subsequent points."
+      },
+      "zone_id": {
+        "in": "query",
+        "name": "zone_id",
+        "schema": {
+          "type": "string"
+        },
+        "description": "The zone id to be used to project coordinates.",
+        "example": "ECADD57B-7E4A-4636-B105-6B1C11BB75BF"
+      },
+      "path_zone_id": {
+        "name": "zone_id",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "path_trackable_id": {
+        "name": "trackable_id",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "path_provider_id": {
+        "name": "provider_id",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "path_fence_id": {
+        "name": "fence_id",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    }
+  }
+}
