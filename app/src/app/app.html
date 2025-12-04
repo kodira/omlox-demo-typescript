@@ -1,0 +1,89 @@
+<div class="app-container">
+  <header class="header">
+    <h1>{{ title() }}</h1>
+    @if (alarm()) {
+      <div class="alarm-indicator alarm-active">
+        🚨 INTRUSION DETECTED! 🚨
+      </div>
+    }
+  </header>
+
+  <main class="main-content">
+    @if (loading()) {
+      <div class="loading">Loading...</div>
+    }
+
+    @if (error()) {
+      <div class="error">{{ error() }}</div>
+    }
+
+    <div class="control-panel">
+      <section class="trackables-section">
+        <h2>Available Trackables</h2>
+        <div class="trackables-list">
+          @for (trackable of trackables(); track trackable.id || $index) {
+            <label class="trackable-item">
+              <input 
+                type="checkbox"
+                [checked]="isSelected(trackable.id!)"
+                (change)="toggleTrackable(trackable.id!)"
+              >
+              <span class="trackable-name">{{ trackable.name || trackable.id }}</span>
+            </label>
+          } @empty {
+            <p>No trackables available</p>
+          }
+        </div>
+        
+        @if (selectedTrackableIds().size > 0) {
+          @if (!isTracking()) {
+            <button class="start-button" (click)="startTracking()">
+              Start Tracking ({{ selectedTrackableIds().size }} selected)
+            </button>
+          } @else {
+            <button class="stop-button" (click)="stopTracking()">
+              Stop Tracking
+            </button>
+            <div class="tracking-status">
+              🔴 Actively tracking {{ selectedTrackableIds().size }} trackable(s)
+              @if (trackablesInFencesCount > 0) {
+                <br><span class="intrusion-count">⚠️ {{ trackablesInFencesCount }} in restricted area(s)</span>
+              }
+            </div>
+          }
+        }
+      </section>
+
+      <section class="fences-section">
+        <h2>Available Fences</h2>
+        <div class="fences-list">
+          @for (fence of fences(); track fence.id || $index) {
+            <div class="fence-item">
+              <strong>{{ fence.name || 'Fence ' + fence.id }}</strong>
+              <p>{{ fence.id }}</p>
+              <p>Region: {{ fence.region.type || 'Unknown' }}</p>
+              <label class="armed-toggle">
+                <input 
+                  type="checkbox"
+                  [checked]="isFenceArmed(fence.id!)"
+                  (change)="toggleFenceArmed(fence.id!)"
+                >
+                <span class="armed-label">Armed</span>
+              </label>
+            </div>
+          } @empty {
+            <p>No fences available</p>
+          }
+        </div>
+      </section>
+    </div>
+
+    <div class="map-container">
+      <div class="map-header">
+        <h2>Location Map</h2>
+        <button class="center-button" (click)="centerMapOnData()">Center on Data</button>
+      </div>
+      <div id="map" class="map"></div>
+    </div>
+  </main>
+</div>
