@@ -16,6 +16,9 @@ using a product called "Coriva" which offers an implementation of the Hub API.
 ### Coriva Documentation
 https://portal.coriva.io/coriva-docs/user_manual/2025.1
 
+> [!NOTE]
+> You'll need to create an account.
+
 ### Coriva Engine UI
 https://demo.coriva.io/app/map
 User: ***
@@ -25,7 +28,7 @@ Other logins can be found here:
 https://portal.coriva.io/coriva-docs/user_manual/2025.1/user-accounts.html#_default_user_accounts
 
 ## Coriva Hub UI
-https://demo.coriva.io/omlox-ui
+https://demo.coriva.io/omlox-ui/
 
 ## OAuth Credential to access the Hub API
 baseUrl: `https://demo.coriva.io/idp/realms/rtls/protocol/openid-connect`
