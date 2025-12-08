@@ -10,7 +10,7 @@ import {
     Fence,
     Location,
     TrackableMotion,
-} from '../omlox-client';
+} from '@kodira/omlox-client-typescript-angular';
 
 /**
  * High-level service that wraps OMLOX API calls with automatic authentication.
@@ -52,28 +52,26 @@ export class OmloxService {
 
     /** Get a specific trackable by ID */
     getTrackable(trackableId: string): Observable<Trackable> {
-        return this.ensureAuthenticated(() => 
-            this.trackablesService.getTrackable(trackableId)
-        );
+        return this.ensureAuthenticated(() => this.trackablesService.getTrackable(trackableId));
     }
 
     /** Get location history for a specific trackable */
     getTrackableLocation(trackableId: string): Observable<Location[]> {
-        return this.ensureAuthenticated(() => 
+        return this.ensureAuthenticated(() =>
             this.trackablesService.getAllTrackableLocations(trackableId)
         );
     }
 
     /** Get current motion data for a specific trackable */
     getTrackableMotion(trackableId: string): Observable<TrackableMotion> {
-        return this.ensureAuthenticated(() => 
+        return this.ensureAuthenticated(() =>
             this.trackablesService.getTrackableMotion(trackableId)
         );
     }
 
     /** Get all fences that contain a specific trackable */
     getTrackableFences(trackableId: string, spatialQuery?: boolean): Observable<Fence[]> {
-        return this.ensureAuthenticated(() => 
+        return this.ensureAuthenticated(() =>
             this.trackablesService.getInsideFenceForTrackable(trackableId, spatialQuery)
         );
     }
@@ -88,5 +86,4 @@ export class OmloxService {
     getFence(fenceId: string): Observable<Fence> {
         return this.ensureAuthenticated(() => this.fencesService.getFence(fenceId));
     }
-
 }

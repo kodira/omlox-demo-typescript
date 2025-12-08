@@ -4,7 +4,7 @@ import {
     provideZoneChangeDetection,
 } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideOmloxClient } from '../omlox-client';
+import { provideOmloxClient } from '@kodira/omlox-client-typescript-angular';
 
 export const appConfig: ApplicationConfig = {
     providers: [

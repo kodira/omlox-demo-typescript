@@ -2,7 +2,7 @@ import { Component, OnInit, signal, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import * as L from 'leaflet';
-import { Fence, Trackable, Location } from '../omlox-client';
+import { Fence, Trackable, Location } from '@kodira/omlox-client-typescript-angular';
 import { OmloxService } from './omlox.service';
 
 // Fix for Leaflet marker icons in bundled applications
@@ -197,7 +197,6 @@ export class App implements OnInit, OnDestroy {
     get trackablesInFencesCount(): number {
         return this.trackablesInArmedFences.size;
     }
-
 
     toggleFenceArmed(fenceId: string) {
         const armed = new Set(this.armedFenceIds());
