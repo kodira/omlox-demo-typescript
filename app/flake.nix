@@ -32,10 +32,8 @@
               npm install
             fi
             echo ""
-            echo "Available commands:"
-            echo "  npm start     - Start development server"
-            echo "  npm run build - Build the project"
-            echo "  npm test      - Run unit tests"
+            echo "Available npm scripts:"
+            npm run
           '';
         };
       }
