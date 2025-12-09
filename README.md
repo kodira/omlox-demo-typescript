@@ -1,6 +1,15 @@
 # omlox-demo-typescript
 
-A simple demo trying out the OMLOX Hub API.
+A simple demo trying out the OMLOX Hub API. For simplicity we only use the REST API of the OMLOX hub even though there is also a WebSocket API which might be better suited for a real-time use-case.
+
+## About the Demo App
+
+This is an "Intrusion Alarm System". Imagine you are Dr. Evil currently visiting granny. While away from home you
+really want to know whenever a secret agent is sneaking into your lab. So you track them
+and once they enter your lab, an alarm will go of. Easy!
+
+![](./assets/screen01.png)
+
 
 ## General information and links
 
@@ -17,27 +26,22 @@ using a product called "Coriva" which offers an implementation of the Hub API.
 https://portal.coriva.io/coriva-docs/user_manual/2025.1
 
 > [!NOTE]
-> You'll need to create an account.
+> You'll need to create an account to access the documentation.
 
 ### Coriva Engine UI
-https://demo.coriva.io/app/map
-User: ***
-Pass: ***
-
-Other logins can be found here:
-https://portal.coriva.io/coriva-docs/user_manual/2025.1/user-accounts.html#_default_user_accounts
+- User interface: https://demo.coriva.io/app/map
+- Default users and passwords can be found [here](https://portal.coriva.io/coriva-docs/user_manual/2025.1/user-accounts.html#_default_user_accounts).
 
 ## Coriva Hub UI
-https://demo.coriva.io/omlox-ui/
+User interface: https://demo.coriva.io/omlox-ui/
 
 ## OAuth Credential to access the Hub API
-baseUrl: `https://demo.coriva.io/idp/realms/rtls/protocol/openid-connect`
-clientId: '***',
-clientSecret: '***'
+- baseUrl: `https://demo.coriva.io/idp/realms/rtls/protocol/openid-connect`
+- clientId and clientSecret can be found [here](https://portal.coriva.io/coriva-docs/user_manual/2025.1/developer-guide/api-authorization.html).
 
 ## Hub API access
-baseUrl: `https://demo.coriva.io/corivahub/v2`
-spec: `https://omlox.com/fileadmin/api/omlox_Hub_API_2.0.0.json`
+- baseUrl: `https://demo.coriva.io/corivahub/v2`
+- spec: `https://omlox.com/fileadmin/api/omlox_Hub_API_2.0.0.json`
 
 ## Development
 
